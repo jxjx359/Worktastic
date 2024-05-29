@@ -1,47 +1,48 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Worktastic.Data;
 using Worktastic.Models;
+
 
 namespace Worktastic.Controllers
 {
     public class JobPostingController : Controller
     {
         private readonly ApplicationDbContext _context;
-
         public JobPostingController(ApplicationDbContext context)
         {
             _context = context;
         }
-
         public IActionResult Index()
         {
-            var JobPostingsFromDb = _context.JobPostings.Where(x => x.OwnerUsername == User.Identity.Name).ToList();
-            return View(JobPostingsFromDb);
+            var jobPostingsFromDb = _context.JobPostings.Where(x => x.OwnerUsername == User.Identity.Name).ToList();
+            return View(jobPostingsFromDb);
         }
         public IActionResult CreateEditJobPosting(int id)
         {
-            if(id != 0)
+            if (id != 0)
             {
-                var jobPostingFromdb = _context.JobPostings.SingleOrDefault(x => x.Id == id);
-
-                if(jobPostingFromdb != null)
+                var jobPostingFromDb = _context.JobPostings.SingleOrDefault(x => x.Id == id);
+                if (jobPostingFromDb != null)
                 {
-                    return View(jobPostingFromdb);
+                    return View(jobPostingFromDb);
                 }
                 else
                 {
                     return NotFound();
                 }
             }
-
             return View();
         }
-
-        public IActionResult CreateEditJob(JobPosting jobPosting,IFormFile file)
+        public IActionResult CreateEditJob(JobPosting jobPosting, IFormFile file)
         {
             jobPosting.OwnerUsername = User.Identity.Name;
-
-            if(file != null)
+            if (file != null)
             {
                 using (var ms = new MemoryStream())
                 {
@@ -50,8 +51,7 @@ namespace Worktastic.Controllers
                     jobPosting.CompanyImage = bytes;
                 }
             }
-
-            if(jobPosting.Id == 0)
+            if (jobPosting.Id == 0)
             {
                 // Add new job if not editing
                 _context.JobPostings.Add(jobPosting);
@@ -59,12 +59,10 @@ namespace Worktastic.Controllers
             else
             {
                 var jobFromDb = _context.JobPostings.SingleOrDefault(x => x.Id == jobPosting.Id);
-                
-                if(jobFromDb == null)
+                if (jobFromDb == null)
                 {
                     return NotFound();
                 }
-
                 jobFromDb.CompanyImage = jobPosting.CompanyImage;
                 jobFromDb.CompanyName = jobPosting.CompanyName;
                 jobFromDb.ContactMail = jobPosting.ContactMail;
@@ -77,10 +75,25 @@ namespace Worktastic.Controllers
                 jobFromDb.StartDate = jobPosting.StartDate;
                 jobFromDb.OwnerUsername = jobPosting.OwnerUsername;
             }
-            
             _context.SaveChanges();
 
             return RedirectToAction("Index");
         }
-    } 
+
+        public IActionResult DeleteJobPosting(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+
+            var jobPostingFromDb = _context.JobPostings.SingleOrDefault(x => x.Id == id);
+
+            if (jobPostingFromDb == null)
+                return NotFound();
+
+            _context.JobPostings.Remove(jobPostingFromDb);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+    }
 }

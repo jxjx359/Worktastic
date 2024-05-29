@@ -276,7 +276,7 @@ namespace Worktastic.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobPostings");
+                    b.ToTable("JobPostings", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
