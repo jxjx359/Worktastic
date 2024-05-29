@@ -7,7 +7,7 @@
 
 
 
-<form asp-controller="JobPosting" asp-action="CreateEditJob">
+<form asp-controller="JobPosting" asp-action="CreateEditJob" enctype="multipart/form-data">
 
 <div class="card">
 
@@ -69,10 +69,14 @@
          </div>
      </div>
 
-</div>
+    </div class="row mb-3">
+        <div class="col">
+            <label>Bild</label>
+            <input class="form-control" name="file" type="file" />
+        </div>
+    </div>
 
-
-     </div>
+     
 
  </div>
 

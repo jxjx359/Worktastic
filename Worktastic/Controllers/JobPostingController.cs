@@ -14,8 +14,17 @@ namespace Worktastic.Controllers
             return View();
         }
 
-        public IActionResult CreateEditJob(JobPosting jobPosting)
+        public IActionResult CreateEditJob(JobPosting jobPosting,IFormFile file)
         {
+            if(file != null)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    file.CopyTo(ms);
+                    var bytes = ms.ToArray();
+                    jobPosting.CompanyImage = bytes;
+                }
+            }
             return RedirectToAction("Index");
         }
     } 
