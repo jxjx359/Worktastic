@@ -16,7 +16,7 @@ namespace Worktastic.Data.Migrations
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
-        }
+        }  
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
