@@ -35,9 +35,14 @@
     </tbody>
 </table>
 
-@section Scripts{
-    <script>       
+
+@section Scripts {
+    <script>
         let table = new DataTable('#jobPostingTable');
+        let header = document.querySelector('#jobPostingTable thead');
+        header.style.backgroundColor = 'black';
+        header.style.color = 'turquoise';
+    
 
 
         function onClickedDeleteButton(id) {
@@ -70,8 +75,6 @@
 
                     }
                 }); 
-
-                   
             }
         })
     }

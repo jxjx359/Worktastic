@@ -20,7 +20,18 @@ namespace Worktastic.Controllers
         }
         public IActionResult Index()
         {
-            var jobPostingsFromDb = _context.JobPostings.Where(x => x.OwnerUsername == User.Identity.Name).ToList();
+            var a = _context?.JobPostings;
+            var b = a.Where(x => x.OwnerUsername == User.Identity.Name);
+            List<JobPosting> jobPostingsFromDb = new List<JobPosting>();
+            var cnt = b.Count();
+            var an = b.Any();
+
+            foreach (var entry in b)
+            {
+                jobPostingsFromDb.Add(entry);
+            }
+
+
             return View(jobPostingsFromDb);
         }
         public IActionResult CreateEditJobPosting(int id)
