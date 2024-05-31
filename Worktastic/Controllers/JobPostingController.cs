@@ -27,7 +27,7 @@ namespace Worktastic.Controllers
             List<JobPosting> jobPostingsFromDb = new List<JobPosting>();
             var cnt = b.Count();
             var an = b.Any();
-
+            
             foreach (var entry in b)
             {
                 jobPostingsFromDb.Add(entry);
