@@ -2,9 +2,12 @@
 @{
     ViewData["Title"] = "Deine Inserate";
 }
+
 <a class="btn btn-primary" asp-controller="JobPosting" asp-action="CreateEditJobPosting">Neues Inserat anlegen</a>
+
 <hr />
-<table class="table table-bordered table-striped table-hover">
+
+<table id="jobPostingTable" class="table table-bordered table-striped table-hover">
     <thead class="thead-dark">
         <tr>
             <th>Job Titel</th>
@@ -14,21 +17,27 @@
         </tr>
     </thead>
     <tbody>
-        @{ 
+        @{
             foreach (JobPosting jobPosting in Model)
             {
-                        <tr>
-                            <td>@jobPosting.JobTitle</td>
-                            <td>@jobPosting.JobLocation</td>
-                            <td>@jobPosting.CompanyName</td>
-                            <td>
-                                <a asp-route-id="@jobPosting.Id" asp-controller="JobPosting" asp-action="CreateEditJobPosting" class="btn btn-warning">Edit</a>
-                                <a asp-route-id="@jobPosting.Id" asp-controller="JobPosting" asp-action="DeleteJobPosting" class="btn btn-danger">Löschen</a>
+                <tr>
+                    <td>@jobPosting.JobTitle</td>
+                    <td>@jobPosting.JobLocation</td>
+                    <td>@jobPosting.CompanyName</td>
+                    <td>
+                        <a asp-route-id="@jobPosting.Id" asp-controller="JobPosting" asp-action="CreateEditJobPosting" class="btn btn-warning">Edit</a>
+                        <a asp-route-id="@jobPosting.Id" asp-controller="JobPosting" asp-action="DeleteJobPosting" class="btn btn-danger">Löschen</a>
 
-                            </td>
-                        </tr>
+                    </td>
+                </tr>
             }
         }
 
     </tbody>
 </table>
+
+@section Scripts{
+    <script>
+        let table = new DataTable('#jobPostingTable');
+    </script>
+}
