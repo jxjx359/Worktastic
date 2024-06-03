@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Worktastic.Models
 {
-    public class JobPosting
+    public partial class JobPosting
     {
         public int Id { get; set; }
-        public string? JobTitle { get; set; }
+        public string JobTitle { get; set; }
         public string? JobLocation { get; set; }
         public string? Description { get; set; }
         public Int32? Salary { get; set; }  // Nullable decimal
