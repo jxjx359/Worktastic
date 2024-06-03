@@ -12,7 +12,7 @@ namespace Worktastic.Models
         public string? JobLocation { get; set; }
         public string? Description { get; set; }
         public Int32? Salary { get; set; }  // Nullable decimal
-        public DateTime? StartDate { get; set; }  // Nullable DateTime
+        public DateTime StartDate { get; set; }  
         public string? CompanyName { get; set; }
         public string? ContactWebsite { get; set; }
         public string? ContactPhone { get; set; }
