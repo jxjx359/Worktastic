@@ -1,62 +1,44 @@
 ﻿@model List<JobPosting>
-
 @{
     ViewData["Title"] = "Job Übersicht";
 }
-
-<div class="jumbotron bg-primary d-flex align-items-center justify-content-center bg-primary mb-4"style="height: 200px;">
-   <div class="display-1 text-white text-center">
-       Worktastic
-   </div>
+<div class="jumbotron bg-primary">
+    <div class="display-1 text-white text-center">
+        Worktastic
+    </div>
 </div>
-
 <h4>
     Finde einen Traumjob in deiner Nähe!
 </h4>
 
 <div class="row mt-4">
-
     <div class="col">
-        <input class="form-control-lg form-control" type="text" placeholder="Wonach suchst du?" />
+        <input id="inputQuery" class="form-control-lg form-control" type="text" placeholder="Wonach suchst du?" />
     </div>
 </div>
 
 
 <div class="text-center mt-2">
-        <button class="btn btn-lg btn-primary">Suchen</button>
+     <button onclick="onClickSearch()" class="btn btn-lg btn-primary">Suchen</button>
 </div>
 
 <hr />
 
-<div class="list-group mt-4">
-
-    @{
-        foreach(JobPosting jobPosting in Model)
-        {
-                    <a href="#" onclick="showModal(@jobPosting.Id)" class=" list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">@jobPosting.JobTitle</h5>
-                                <small>@jobPosting.JobLocation</small>
-                            </div>
-                            <p class="mb-1">@jobPosting.CompanyName</p>
-                            <small>Start: @jobPosting.StartDate.ToShortDateString()</small>
-                        </a>
-        }
-    }
+<div id="partialList">
 
 </div>
 
-
+<!-- Modal -->
 <div class="modal fade" id="modalJobPosting" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-               <div class="modal-header">
-                   <h5 class="modal-title" id="modalTitle">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
             <div class="modal-body">
 
-                <img id="modalImage" class="img-fluid" src=""/>
+                <img id="modalImage" class="img-fluid" src="" />
 
                 <div id="modalDescription">
 
@@ -79,6 +61,14 @@
 
 @section Scripts{
     <script>
+
+        $('#partialList').load("/home/GetJobPostingsPartial/");
+
+        function onClickSearch() {
+            var query = $('inputQuery').val();
+            $('#partialList').load("/home/GetJobPostingsPartial?query=" + query);
+        }
+
         function showModal(id) {
 
             $.ajax({
