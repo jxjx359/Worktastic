@@ -1,0 +1,137 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<h1 class="login-title">@ViewData["Title"]</h1>
+
+<form class="form-signin" id="account" method="post">
+    <div class="card futuristic-card">
+        <div class="card-header futuristic-card-header">
+            <h5 class="text-center">Login</h5>
+        </div>
+
+        <div class="card-body futuristic-card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control futuristic-input" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email" class="form-label">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control futuristic-input" autocomplete="current-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password" class="form-label">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="checkbox mb-3">
+                <label asp-for="Input.RememberMe" class="form-label">
+                    <input class="form-check-input futuristic-checkbox" asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+            </div>
+            <div>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg futuristic-button">Log in</button>
+            </div>
+            <div class="futuristic-links">
+                <p>
+                    <a id="forgot-password" class="futuristic-link" asp-page="./ForgotPassword">Forgot your password?</a>
+                </p>
+                <p>
+                    <a asp-page="./Register" class="futuristic-link" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                </p>
+                <p>
+                    <a id="resend-confirmation" class="futuristic-link" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    body {
+        background-color: #121212;
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .login-title {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        font-weight: 300;
+        color: #76ff03;
+    }
+
+    .form-signin {
+        width: 100%;
+        max-width: 32rem;
+        padding: 15px;
+        margin: auto;
+    }
+
+    .futuristic-card {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .futuristic-card-header {
+        background-color: #1a237e;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+    }
+
+    .futuristic-card-body {
+        padding: 2rem;
+    }
+
+    .futuristic-input {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        transition: background-color 0.3s, border 0.3s;
+    }
+
+        .futuristic-input:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid #76ff03;
+        }
+
+    .futuristic-checkbox {
+        accent-color: #76ff03;
+    }
+
+    .futuristic-button {
+        background-color: #76ff03;
+        border: none;
+        color: #000;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+        .futuristic-button:hover {
+            background-color: #64dd17;
+            box-shadow: 0 0 10px #76ff03;
+        }
+
+    .futuristic-links {
+        text-align: center;
+    }
+
+    .futuristic-link {
+        color: #76ff03;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+        .futuristic-link:hover {
+            color: #64dd17;
+        }
+</style>
