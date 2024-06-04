@@ -45,5 +45,19 @@ namespace Worktastic.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("Delete")]
+        public IActionResult Delete(int id)
+        {
+            var jobPosting = _context.JobPostings.SingleOrDefault(x => x.Id == id);
+
+            if (jobPosting == null)
+                return NotFound();
+
+            _context.JobPostings.Remove(jobPosting);
+            _context.SaveChanges();
+
+            return Ok("Objekt wurde gelöscht.");
+        }
     }
 }
