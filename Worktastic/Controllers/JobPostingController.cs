@@ -22,17 +22,13 @@ namespace Worktastic.Controllers
         }
         public IActionResult Index()
         {
-            var a = _context?.JobPostings;
-            var b = a.Where(x => x.OwnerUsername == User.Identity.Name);
-            List<JobPosting> jobPostingsFromDb = new List<JobPosting>();
-            var cnt = b.Count();
-            var an = b.Any();
-            
-            foreach (var entry in b)
+            if (User.IsInRole("Admin"))
             {
-                jobPostingsFromDb.Add(entry);
+                var allPostings = _context.JobPostings.ToList();
+                return View(allPostings);
             }
 
+            var jobPostingsFromDb = _context.JobPostings.Where(x => x.OwnerUsername == User.Identity.Name).ToList();
 
             return View(jobPostingsFromDb);
         }
@@ -42,7 +38,7 @@ namespace Worktastic.Controllers
             {
                 var jobPostingFromDb = _context.JobPostings.SingleOrDefault(x => x.Id == id);
 
-                if(jobPostingFromDb.OwnerUsername != User.Identity.Name)
+                if ((jobPostingFromDb.OwnerUsername != User.Identity.Name) && !User.IsInRole("Admin"))
                 {
                     return Unauthorized();
                 }
@@ -92,7 +88,7 @@ namespace Worktastic.Controllers
                 jobFromDb.JobTitle = jobPosting.JobTitle;
                 jobFromDb.Salary = jobPosting.Salary;
                 jobFromDb.StartDate = jobPosting.StartDate;
-                jobFromDb.OwnerUsername = jobPosting.OwnerUsername;
+                //jobFromDb.OwnerUsername = jobPosting.OwnerUsername;
             }
             _context.SaveChanges();
 
